@@ -28,10 +28,7 @@ Thumbs.db
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
 .gradle
 build/
-
-# Gradle files
-.gradle/
-build/
+captures/
 /*/build/
 
 # Local configuration file (sdk path, etc)
