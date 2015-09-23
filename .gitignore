@@ -12,6 +12,23 @@
 bin/
 gen/
 
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store
+
+# Eclipse project files
+.classpath
+.project
+
+# Android Studio
+*.iml
+.idea
+#.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+.gradle
+build/
+
 # Gradle files
 .gradle/
 build/
@@ -25,3 +42,11 @@ proguard/
 
 # Log Files
 *.log
+
+#NDK
+obj/
+
+# Temporary
+[Tt]emp
+
+
