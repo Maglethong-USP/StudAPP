@@ -5,7 +5,6 @@ import java.net.*;
 import java.util.*;
 
 import client.*;
-import client.requests.*;
 
 
 public class UserConnection
@@ -41,17 +40,18 @@ public class UserConnection
 		try
 		{
 		//	String host = "maglethong.ddns.net";
-			String host = "191.189.116.80";
+		//	String host = "191.189.116.80";
+			String host = "localhost";
 			int port = 12377;
 
 			UserConnection connection = 
 						new UserConnection(new Socket(host, port));
 
-			user = User.Authenticate(	this.networkReader,
-										this.networkWriter,
-										args[0], args[1]	);
+			connection.user = User.Authenticate(	connection.networkReader,
+													connection.networkWriter,
+													args[0], args[1]	);
 
-			System.out.println(user);
+			System.out.println(connection.user);
 		}
 		catch(Exception e)
 		{

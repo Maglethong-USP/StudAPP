@@ -1,6 +1,7 @@
 package client;
 
-import java.sql.*;
+import java.io.*;
+import java.net.*;
 import java.util.*;
 
 
@@ -48,8 +49,8 @@ public class User
 	public String 	getEmail(){ 	return this.email; }
 	public float 	getRank(){ 		return this.rank; }
 	public int 		getRankCount(){ return this.rank_count; }
-	public int 		getType(){ 		return this.type; }
-	public int 		getCredits(){ 	return this.credits; }
+	public char		getType(){ 		return this.type; }
+	public float	getCredits(){ 	return this.credits; }
 
 	// Setters
 	public void setName(String name){ this.name = name; }
@@ -59,10 +60,10 @@ public class User
 	public String toString()
 	{
 		return "ID:      " + this.id + "\n"
-			 + "Name:    " + this.name + "\n";
-			 + "E-mail:  " + this.email + "\n";
-			 + "Rank:    " + this.rank + "(" + this.rank_count + ") \n";
-			 + "Type:    " + this.type + "\n";
+			 + "Name:    " + this.name + "\n"
+			 + "E-mail:  " + this.email + "\n"
+			 + "Rank:    " + this.rank + "(" + this.rank_count + ") \n"
+			 + "Type:    " + this.type + "\n"
 			 + "Credits: " + this.credits + "\n";
 	}
 	
@@ -96,10 +97,10 @@ public class User
 			ret.id 			= Integer.parseInt(networkReader.nextLine());
 			ret.name 		= networkReader.nextLine();
 			ret.email 		= networkReader.nextLine();
-			ret.rank 		= Float.parseInt(networkReader.nextLine());
+			ret.rank 		= Float.parseFloat(networkReader.nextLine());
 			ret.rank_count 	= Integer.parseInt(networkReader.nextLine());
 			ret.type 		= networkReader.nextLine().charAt(0);
-			ret.credits		= Float.parseInt(networkReader.nextLine());
+			ret.credits		= Float.parseFloat(networkReader.nextLine());
 		}
 		else if( result.equals("Wrong email or pass!") )
 		{
@@ -135,10 +136,10 @@ public class User
 			this.id 			= Integer.parseInt(networkReader.nextLine());
 			this.name 			= networkReader.nextLine();
 			this.email 			= networkReader.nextLine();
-			this.rank 			= Float.parseInt(networkReader.nextLine());
+			this.rank 			= Float.parseFloat(networkReader.nextLine());
 			this.rank_count 	= Integer.parseInt(networkReader.nextLine());
 			this.type 			= networkReader.nextLine().charAt(0);
-			this.credits		= Float.parseInt(networkReader.nextLine());
+			this.credits		= Float.parseFloat(networkReader.nextLine());
 		}
 		else if( result.equals("Not Found!") )
 		{
