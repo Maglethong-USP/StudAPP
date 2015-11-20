@@ -9,29 +9,21 @@ import server.database.*;
 
 
 
-public class LoginRequest implements UserRequest
+public class UserInformationRequest implements UserRequest
 {
 	
 	public void run(Scanner networkReader, PrintWriter networkWriter, Usuario user) 
 	throws Exception 
 	{	
-		// Reading credentials	
-		String email = networkReader.nextLine();
-		String password = networkReader.nextLine();
-
-		if(user != null)
-		{
-			networkWriter.println( "Logout First!" );
-			networkWriter.flush();
-			return;
-		}
+		// Reading inputs	
+		int id = Integer.parseInt(networkReader.nextLine());
 
 		// Authenticating
-		user = Usuario.authenticate(email, password);
+		user = Usuario.findByPrimaryKey(id);
 
 		// Writing response
 		if(user == null)
-			networkWriter.println( "Wrong email or pass!" );
+			networkWriter.println( "Not Found!" );
 		else
 		{
 			networkWriter.println( "Success!" );

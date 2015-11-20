@@ -4,11 +4,14 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import client.*;
+import client.requests.*;
+
 
 public class UserConnection
 {
 	private Socket socket;
-	//private Usuario user;
+	private User user;
 	
 
 	// Network read/writer
@@ -21,50 +24,34 @@ public class UserConnection
 	throws Exception
 	{ 
 		this.socket = socket; 
-	//	this.user = null;
+		this.user = null;
 
 		this.networkReader = new Scanner(this.socket.getInputStream());
 		this.networkWriter = new PrintWriter(this.socket.getOutputStream());
 	}
 
-	// Overwrite run
-	public void run(String email, String password)
-	{
-		
-		try
-		{
-			networkWriter.println( "LoginRequest" );
-			networkWriter.println( email );
-			networkWriter.println( password );
-			networkWriter.flush();
-
-			String result = networkReader.nextLine();
-			System.out.println(result);
-
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();	
-		}
-
-	}
-	
 	public static void main(String args[])
 	{
 		// Arguments
-		if(args.length < 4){
-			System.out.println("usage: <email> <password> <host> <port>");
+		if(args.length < 2){
+			System.out.println("usage: <email> <password>");
 			System.exit(0);
 		}
 
 		try
 		{
-			String host = args[2];
-			int port = Integer.parseInt(args[3]);
+		//	String host = "maglethong.ddns.net";
+			String host = "191.189.116.80";
+			int port = 12377;
+
 			UserConnection connection = 
 						new UserConnection(new Socket(host, port));
 
-			connection.run(args[0], args[1]);
+			user = User.Authenticate(	this.networkReader,
+										this.networkWriter,
+										args[0], args[1]	);
+
+			System.out.println(user);
 		}
 		catch(Exception e)
 		{
