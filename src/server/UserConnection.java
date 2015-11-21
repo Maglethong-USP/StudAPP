@@ -34,28 +34,30 @@ public class UserConnection implements Runnable
 	// Overwrite run
 	public void run()
 	{
-		
 		try
 		{
-			// User requesting an operation
-			String operation = networkReader.nextLine();	
-			try
+			while(true)
 			{
-				Class theClass = Class.forName("server.requests." + operation); 
-				UserRequest req = (UserRequest)	theClass.newInstance();
-				req.run(this.networkReader, this.networkWriter, this.user);
-
-			}
-			// Operation was not implemented
-			catch(ClassNotFoundException cnfe)
-			{	
-				networkWriter.println("unknown_command");
-			}
-			// Some other error ocured
-			catch(Exception e)
-			{
-				networkWriter.println("unknown_error");
-			
+				// User requesting an operation
+				String operation = networkReader.nextLine();
+System.out.println("Received operation: " + operation);	
+				try
+				{
+					Class theClass = Class.forName("server.requests." + operation); 
+					UserRequest req = (UserRequest)	theClass.newInstance();
+					this.user = req.run(this.networkReader, this.networkWriter, this.user);
+				}
+				// Operation was not implemented
+				catch(ClassNotFoundException cnfe)
+				{	
+					networkWriter.println("unknown_command");
+				}
+				// Some other error ocured
+				catch(Exception e)
+				{
+					networkWriter.println("unknown_error");
+				
+				}
 			}
 
 		}
