@@ -50,6 +50,8 @@ public class UserConnection
 			connection.user = User.Authenticate(	connection.networkReader,
 													connection.networkWriter,
 													args[0], args[1]	);
+			connection.user.refreshUserInformation();
+			connection.user.refreshContactList();
 
 			System.out.println(connection.user);
 		}
