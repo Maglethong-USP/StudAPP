@@ -8,6 +8,6 @@ import server.database.*;
 
 public interface UserRequest
 {
-	public void run(Scanner networkReader, PrintWriter networkWriter, Usuario user) 
+	public Usuario run(Scanner networkReader, PrintWriter networkWriter, Usuario user) 
 	throws Exception;
 }
