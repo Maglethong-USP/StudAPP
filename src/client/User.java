@@ -19,6 +19,7 @@ public class User
 	private float 	credits;
 
 	private ArrayList<Contact> contactList;
+	private ArrayList<String> languageList;
 
 
 	//! [Constructor]
@@ -34,6 +35,7 @@ public class User
 		this.credits = 0;
 
 		this.contactList = null;
+		this.languageList = null;
 	}
 	public User(Scanner networkReader, PrintWriter networkWriter, int id)
 	throws Exception
@@ -48,6 +50,7 @@ public class User
 		this.credits = 0;
 
 		this.contactList = null;
+		this.languageList = null;
 
 		this.refreshUserInformation(id);
 	}
@@ -69,6 +72,15 @@ public class User
 
 		return this.contactList.toArray(new Contact[1]);
 	}
+	public String[] 	getLanguages()
+	{
+		if(this.languageList == null)
+		{
+			this.refreshLanguageList();
+		}
+
+		return this.languageList.toArray(new String[1]);
+	}
 
 	// Setters
 	public void setName(String name){ 	this.name = name; }
@@ -78,17 +90,19 @@ public class User
 	public String toString()
 	{
 		String ret = "ID:      " + this.id + "\n"
-			 + "Name:    " + this.name + "\n"
-			 + "E-mail:  " + this.email + "\n"
-			 + "Rank:    " + this.rank + "(" + this.rank_count + ") \n"
-			 + "Type:    " + this.type + "\n"
-			 + "Credits: " + this.credits + "\n"
+			 + "Name:     " + this.name + "\n"
+			 + "E-mail:   " + this.email + "\n"
+			 + "Rank:     " + this.rank + "(" + this.rank_count + ") \n"
+			 + "Type:     " + this.type + "\n"
+			 + "Credits:  " + this.credits + "\n"
 			 + "Contacts:\n";
-
-		for(int i=0; i<this.contactList.size(); i++)
-		{
-			ret += "\t - " + this.contactList.get(i) + "\n";
-		}
+		if(this.contactList != null)
+			for(int i=0; i<this.contactList.size(); i++)
+				ret += "    - " + this.contactList.get(i) + "\n";
+		ret += "Languages:\n";
+		if(this.languageList != null)
+			for(int i=0; i<this.languageList.size(); i++)
+				ret += "    - " + this.languageList.get(i) + "\n";
 
 		return ret;	 
 	}
@@ -163,7 +177,7 @@ public class User
 		String result = networkReader.nextLine();
 		if( result.equals("Success!") )
 		{
-			this.id 			= id
+			this.id 			= id;
 			this.name 			= networkReader.nextLine();
 			this.email 			= networkReader.nextLine();
 			this.rank 			= Float.parseFloat(networkReader.nextLine());
@@ -182,16 +196,70 @@ public class User
 		}
 	}
 
-	// Refresh user languages // TODO
+	// Refresh user languages
+	public void refreshLanguageList()
+	{
+		// Send Credentials
+		networkWriter.println( "UserLanguageRequest" );
+		networkWriter.println( this.id );
+		networkWriter.flush();
 
-	// Refresh Credit Amount [just the total amount] // TODO []
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+			this.languageList = new ArrayList<String>();
+
+			while(true)
+			{
+				String lang = networkReader.nextLine();
+				if(lang.length() == 0) break;
+				this.languageList.add( lang );
+			}
+		}
+		else if( result.equals("Not Logged In!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+	}
+
+	// Refresh Credit Amount [just the total amount] // TODO [test]
+	public void refreshCreditsAmount()
+	{
+		// Send Credentials
+		networkWriter.println( "UserCreditsAmountRequest" );
+		networkWriter.flush();
+
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+			this.credits = Float.parseFloat(networkReader.nextLine());
+		}
+		else if( result.equals("Not Logged In!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+	}
 
 	// Refresh Credit Information [log] // TODO []
 
 	// Refresh Message Information // TODO []
 
 
-	// Refresh user contacts // TODO
+	// Refresh user contacts
 	public void refreshContactList()
 	{
 		// Send Credentials

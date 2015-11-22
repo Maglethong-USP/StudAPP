@@ -52,6 +52,9 @@ public class UserConnection
 													args[0], args[1]	);
 			connection.user.refreshUserInformation();
 			connection.user.refreshContactList();
+			connection.user.refreshLanguageList();
+			connection.user.refreshCreditsAmount();
+			
 
 			System.out.println(connection.user);
 		}

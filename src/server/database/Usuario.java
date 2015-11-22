@@ -280,14 +280,14 @@ public class Usuario
 	}
 
 	// Get studying language list
-	public String[] getStudyingList()
+	public static String[] getStudyingList(int id)
 	throws Exception
 	{
 		ArrayList<String> ret = new ArrayList<String>();
 
 		Database db = new Database();
 		String sql = "SELECT lingua FROM estuda WHERE " 
-					+ "id = '" + this.id + "'";
+					+ "id = '" + id + "'";
 
 		ResultSet rs = db.query(sql);
 
@@ -299,7 +299,7 @@ public class Usuario
 		return ret.toArray(new String[1]);
 	}
 
-	public static float getCredits(String id)
+	public static float getCredits(int id)
 	throws Exception
 	{
 		Database db = new Database();
@@ -353,7 +353,7 @@ public class Usuario
 			user = Usuario.findByEmail("andy@yopmail.com");
 			user.insertLanguage("Portugues");
 			user.removeLanguage("Ingles");
-			String[] lang = user.getStudyingList();
+			String[] lang = Usuario.getStudyingList(user.getID());
 			for(int i=0; i<lang.length; i++)
 			{
 				System.out.println(lang[i]);

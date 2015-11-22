@@ -10,6 +10,7 @@ import server.database.*;
 
 
 
+// TODO [test]
 public class UserContactsRequest implements UserRequest
 {
 	public Usuario run(Scanner networkReader, PrintWriter networkWriter, Usuario user) 
