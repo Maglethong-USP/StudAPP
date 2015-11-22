@@ -61,11 +61,14 @@ System.out.println("Received operation: " + operation);
 			}
 
 		}
+		catch(NoSuchElementException nsle)
+		{
+system.out.println("Connection Closed!\n");
+		}
 		catch(Exception e)
 		{
 			e.printStackTrace();	
 		}
-
 	}
 	
 }

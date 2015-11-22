@@ -113,8 +113,6 @@ public class User
 	//                                                                       //
 	// --------------------------------------------------------------------- //
 
-	// Register // TODO
-
 	// Login
 	public static User Authenticate( 	Scanner networkReader,
 										PrintWriter networkWriter,
@@ -258,6 +256,174 @@ public class User
 
 	// Refresh Message Information // TODO []
 
+	// Send message // TODO []
+
+	// Register
+	public static void createNewAccount( 	Scanner networkReader,
+											PrintWriter networkWriter,
+											String email,
+											String password			)
+	throws Exception
+	{
+		// Send Request
+		networkWriter.println( "RegisterRequest" );
+		networkWriter.println( email );
+		networkWriter.println( password );
+		networkWriter.flush();
+
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+			
+		}
+		else if( result.equals("E-mail in Use!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else if( result.equals("Invalid Password!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+	}
+
+	// Change Password
+	public void changePassword(String curPasswd, String newPasswd)
+	{
+		// Send Request
+		networkWriter.println( "ChangePasswordRequest" );
+		networkWriter.println( curPasswd );
+		networkWriter.println( newPasswd );
+		networkWriter.flush();
+
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+			
+		}
+		else if( result.equals("Not Logged In!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else if( result.equals("Wrong Password!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+	}
+
+	// Change Profile info
+	public void sendNewProfile()
+	{
+		// Send Request
+		networkWriter.println( "UpdateProfileRequest" );
+		networkWriter.println( this.name );
+		networkWriter.println( this.email );
+		networkWriter.flush();
+
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+			
+		}
+		else if( result.equals("Not Logged In!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else if( result.equals("Wrong Password!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+	}
+
+	// Add contact
+	public void addContact(int id)
+	{
+		// Send Request
+		networkWriter.println( "AddContactRequest" );
+		networkWriter.println( id );
+		networkWriter.flush();
+
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+
+		}
+		else if( result.equals("Not Found!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else if( result.equals("Already Exists!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else if( result.equals("Not Logged In!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+	}
+
+	// Remove Contact // TODO [Test]
+	public void removeContact(int id)
+	{
+		// Send Request
+		networkWriter.println( "RemoveContactRequest" );
+		networkWriter.println( id );
+		networkWriter.flush();
+
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+
+		}
+		else if( result.equals("Not Found!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else if( result.equals("Not Logged In!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+	}
 
 	// Refresh user contacts
 	public void refreshContactList()

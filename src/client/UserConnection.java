@@ -54,9 +54,24 @@ public class UserConnection
 			connection.user.refreshContactList();
 			connection.user.refreshLanguageList();
 			connection.user.refreshCreditsAmount();
-			
 
 			System.out.println(connection.user);
+
+			connection.user.changePassword(args[1], args[1]);
+
+			connection.user.setName("Andreas Munte");
+			connection.user.sendNewProfile();
+
+
+			System.out.println("Atempting to create user: 'galo@yopmail.com' ");
+			User.createNewAccount(	connection.networkReader, 
+									connection.networkWriter,
+									"galo@yopmail.com",
+									"qwerty");
+
+			connection.user.addContact(2);
+			connection.user.removeContact(2);
+
 		}
 		catch(Exception e)
 		{

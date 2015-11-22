@@ -43,11 +43,11 @@ public class Usuario
 	}
 
 	// Setters
-	private void setName(String name)
+	public void setName(String name)
 	{
 		this.nome = name;	
 	}
-	private void setEmail(String email)
+	public void setEmail(String email)
 	{
 		this.email = email;	
 	}
@@ -111,6 +111,7 @@ public class Usuario
 		Database db = new Database();
 		String sql = "UPDATE usuario SET "
 						+ "nome = '" + this.nome + "', "
+						+ "email = '" + this.email + "', "
 						+ "senha = '" + this.senha + "', "
 						+ "tipo = '" + this.tipo + "' "
 					+ "WHERE id = '" + this.id + "'";
@@ -210,6 +211,31 @@ public class Usuario
 					+ "WHERE contato.id_usuario = '" + this.id + "'";
 
 		return db.query(sql);
+	}
+
+	// Add contact
+	public void addContact(int id)
+	throws Exception 
+	{
+		Database db = new Database();
+		String sql = "INSERT INTO contato (id_usuario, id_contato) VALUES ("
+						+ this.id + ", "
+						+ id
+						+ ")";
+
+		db.execute(sql);
+	}
+
+	// Remove contact
+	public void removeContact(int id)
+	throws Exception 
+	{
+		Database db = new Database();
+		String sql = "DELETE FROM contato " 
+					+ "WHERE id_usuario = " + this.id
+						+ "AND id_contato = " + id;
+
+		db.execute(sql);
 	}
 
 	// Authenticator
