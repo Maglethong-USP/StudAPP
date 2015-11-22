@@ -1,15 +1,18 @@
 package client;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
+
+import javax.net.ssl.*;
+import com.sun.net.ssl.internal.ssl.Provider;
+import java.security.Security;
 
 import client.*;
 
 
 public class UserConnection
 {
-	private Socket socket;
+	private SSLSocket sslSocket;
 	private User user;
 	
 
@@ -19,14 +22,14 @@ public class UserConnection
 		
 
 	// Constructor
-	public UserConnection(Socket socket)
+	public UserConnection(SSLSocket sslSocket)
 	throws Exception
 	{ 
-		this.socket = socket; 
+		this.sslSocket = sslSocket; 
 		this.user = null;
 
-		this.networkReader = new Scanner(this.socket.getInputStream());
-		this.networkWriter = new PrintWriter(this.socket.getOutputStream());
+		this.networkReader = new Scanner(this.sslSocket.getInputStream());
+		this.networkWriter = new PrintWriter(this.sslSocket.getOutputStream());
 	}
 
 	public static void main(String args[])
@@ -43,20 +46,15 @@ public class UserConnection
 		//	String host = "191.189.116.80";
 			String host = "localhost";
 			int port = 12377;
-
-			UserConnection connection = 
-						new UserConnection(new Socket(host, port));
-
-			connection.user = User.Authenticate(	connection.networkReader,
-													connection.networkWriter,
-													args[0], args[1]	);
-			connection.user.refreshUserInformation();
-			connection.user.refreshContactList();
-			connection.user.refreshLanguageList();
-			connection.user.refreshCreditsAmount();
-			
-
-			System.out.println(connection.user);
+                        
+                        System.setProperty("javax.net.ssl.trustStore","foobar");
+                        System.setProperty("javax.net.ssl.trustStorePassword", "foobar");
+                        
+                        Security.addProvider(new Provider());
+                        SSLSocketFactory sslsocketfactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+                        UserConnection connection = new UserConnection((SSLSocket)sslsocketfactory.createSocket(host,port));
+                        connection.user = User.Authenticate(connection.networkReader,connection.networkWriter,args[0], args[1]);
+                        System.out.println(connection.user);
 		}
 		catch(Exception e)
 		{

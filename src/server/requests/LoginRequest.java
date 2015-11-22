@@ -11,7 +11,8 @@ import server.database.*;
 
 public class LoginRequest implements UserRequest
 {
-	public Usuario run(Scanner networkReader, PrintWriter networkWriter, Usuario user) 
+	
+	public void run(Scanner networkReader, PrintWriter networkWriter, Usuario user) 
 	throws Exception 
 	{	
 		// Reading credentials	
@@ -22,7 +23,7 @@ public class LoginRequest implements UserRequest
 		{
 			networkWriter.println( "Logout First!" );
 			networkWriter.flush();
-			return user;
+			return;
 		}
 
 		// Authenticating
@@ -44,7 +45,6 @@ public class LoginRequest implements UserRequest
 		}
 
 		networkWriter.flush();
-		return user;
 	}
 	
 }

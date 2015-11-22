@@ -1,20 +1,31 @@
 package server;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
+import java.security.Security;
+import java.security.PrivilegedActionException;
+
+import javax.net.ssl.*;
+import com.sun.net.ssl.internal.ssl.Provider;
 
 import server.database.*;
 
 
 public class Server{
-	private ServerSocket server;
+	private SSLServerSocket sslServer;
 	
 	//! [Constructor]
 	public Server(int port) 
 	throws Exception
 	{
-		this.server = new ServerSocket(port);
+            
+            Security.addProvider(new Provider());
+            
+            System.setProperty("javax.net.ssl.keyStore","foobar");
+            System.setProperty("javax.net.ssl.keyStorePassword","foobar");
+            
+            SSLServerSocketFactory sslServerSocketfactory = (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
+            this.sslServer = (SSLServerSocket)sslServerSocketfactory.createServerSocket(port);
 	}
 
 	//! Main execution loop
@@ -25,7 +36,7 @@ public class Server{
 			try
 			{
 				Thread userConnection = 
-						new Thread(new UserConnection(this.server.accept()));
+						new Thread(new UserConnection( (SSLSocket)this.sslServer.accept() ));
 				userConnection.start();
 			}
 			catch(Exception e)
@@ -54,7 +65,9 @@ public class Server{
 			}
 			catch(Exception e)
 			{
-				e.printStackTrace();	
+                            PrivilegedActionException priexp = new PrivilegedActionException(e);
+                            System.out.println(" Priv act exception --- " + priexp.getMessage());
+                            e.printStackTrace();	
 			}
 		}
 		else

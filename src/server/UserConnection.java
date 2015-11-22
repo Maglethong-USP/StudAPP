@@ -1,9 +1,9 @@
 package server;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
 
+import javax.net.ssl.*;
 
 import server.requests.*;
 import server.database.*;
@@ -11,7 +11,7 @@ import server.database.*;
 
 public class UserConnection implements Runnable
 {
-	private Socket socket;
+	private SSLSocket sslSocket;
 	private Usuario user;
 	
 
@@ -21,43 +21,41 @@ public class UserConnection implements Runnable
 		
 
 	// Constructor
-	public UserConnection(Socket socket)
+	public UserConnection(SSLSocket sslSocket)
 	throws Exception
 	{ 
-		this.socket = socket; 
+		this.sslSocket = sslSocket; 
 		this.user = null;
 
-		this.networkReader = new Scanner(this.socket.getInputStream());
-		this.networkWriter = new PrintWriter(this.socket.getOutputStream());
+		this.networkReader = new Scanner(this.sslSocket.getInputStream());
+		this.networkWriter = new PrintWriter(this.sslSocket.getOutputStream());
 	}
 
 	// Overwrite run
 	public void run()
 	{
+		
 		try
 		{
-			while(true)
+			// User requesting an operation
+			String operation = networkReader.nextLine();	
+			try
 			{
-				// User requesting an operation
-				String operation = networkReader.nextLine();
-System.out.println("Received operation: " + operation);	
-				try
-				{
-					Class theClass = Class.forName("server.requests." + operation); 
-					UserRequest req = (UserRequest)	theClass.newInstance();
-					this.user = req.run(this.networkReader, this.networkWriter, this.user);
-				}
-				// Operation was not implemented
-				catch(ClassNotFoundException cnfe)
-				{	
-					networkWriter.println("unknown_command");
-				}
-				// Some other error ocured
-				catch(Exception e)
-				{
-					networkWriter.println("unknown_error");
-				
-				}
+				Class theClass = Class.forName("server.requests." + operation); 
+				UserRequest req = (UserRequest)	theClass.newInstance();
+				req.run(this.networkReader, this.networkWriter, this.user);
+
+			}
+			// Operation was not implemented
+			catch(ClassNotFoundException cnfe)
+			{	
+				networkWriter.println("unknown_command");
+			}
+			// Some other error ocured
+			catch(Exception e)
+			{
+				networkWriter.println("unknown_error");
+			
 			}
 
 		}
