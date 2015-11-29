@@ -617,12 +617,21 @@ public class ProfileFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_TextoNomePropertyChange
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //get new texts, compare and submit
-        String newName = TextoNome.getText();
-        String newMail = TextoEmail.getText();
-        
+        TryUpdate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void TryUpdate(){
+        String newName = TextoNome.getText();
+        String newMail = TextoEmail.getText();
+        if(!newName.equals(nameField)){
+            StudApp.user.setName(newName);
+        }
+        if(!newMail.equals(emailField)){
+            StudApp.user.setEmail(newMail);
+        }
+        StudApp.user.sendNewProfile();
+    }
+    
     private void ToggleEnabled(java.awt.Component component){
         component.setVisible(!component.isVisible());
     }
