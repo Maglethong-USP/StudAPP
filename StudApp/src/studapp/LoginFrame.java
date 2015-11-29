@@ -182,8 +182,10 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_SenhaTextActionPerformed
 
     private void TryLogin(){
-        String usuario = UsuarioText.getText();
-        String senha = String.copyValueOf(SenhaText.getPassword());
+        //String usuario = UsuarioText.getText();
+        //String senha = String.copyValueOf(SenhaText.getPassword());
+        String usuario = "andy@yopmail.com";
+        String senha = "qwerty";
         if((!usuario.isEmpty()) && (!senha.isEmpty())){
             
             try {
