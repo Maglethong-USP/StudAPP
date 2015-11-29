@@ -11,14 +11,17 @@ DRIVER_PACKAGE = 	lib/postgresql-9.4-1205.jdbc4.jar
 # SQL Driver Load instruction
 DRIVER_LOAD = 		org.postgresql.Driver
 
+# Other Packages
+OTHER_PACK = 		lib/commons-lang3-3.4.jar
+
 
 all: bs bc
 
 server: bs
 bs: 
-	@javac -cp bin -d bin src/server/database/*.java
-	@javac -cp bin -d bin src/server/requests/*.java
-	@javac -cp bin -d bin src/server/*.java
+	@javac -cp bin:$(OTHER_PACK) -d bin src/server/database/*.java
+	@javac -cp bin:$(OTHER_PACK) -d bin src/server/requests/*.java
+	@javac -cp bin:$(OTHER_PACK) -d bin src/server/*.java
 
 client: bc
 bc:
@@ -29,7 +32,7 @@ bc:
 
 runserver: rs
 rs:
-	@java -cp bin:$(DRIVER_PACKAGE) -Djwbc.drivers=$(DRIVER_LOAD) server.Server $(PORT)
+	@java -cp bin:$(DRIVER_PACKAGE):$(OTHER_PACK) -Djwbc.drivers=$(DRIVER_LOAD) server.Server $(PORT)
 
 
 runterminalclient: rtc

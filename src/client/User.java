@@ -254,9 +254,91 @@ public class User
 
 	// Refresh Credit Information [log] // TODO []
 
-	// Refresh Message Information // TODO []
+	// Send message // TODO [test]
+	public void sendMessage(Message msg)
+	{
+		// Send Request
+		networkWriter.println( "SendMessageRequest" );
+		networkWriter.println( msg.getDestination() );
+		networkWriter.println( msg.getContent().length() );
+		networkWriter.println( msg.getContent() );
+		networkWriter.flush();
 
-	// Send message // TODO []
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+			
+		}
+		else if( result.equals("Not Logged In!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+	}
+
+	// Receive messages // TODO [test]
+	public Message[] recvMessages(Date newerThan, Date olderThan)
+	{
+		ArrayList<Message> msgList = new ArrayList<Message>();
+
+		// Send Request
+		networkWriter.println( "RecvMessageRequest" );
+		if(newerThan != null)
+			networkWriter.println( newerThan.getTime() );
+		else
+			networkWriter.println( 0 );
+
+		if(olderThan != null)
+			networkWriter.println( olderThan.getTime() );
+		else
+			networkWriter.println( 0 );
+
+		networkWriter.flush();
+
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+			while(true)
+			{
+				String firstLine = networkReader.nextLine();
+				if(firstLine.length() == 0)
+					break;
+
+				int sender = Integer.parseInt(firstLine);
+				int receiver = Integer.parseInt(networkReader.nextLine());
+				int contentLen = Integer.parseInt(networkReader.nextLine());
+				String content = "";
+				do
+				{ 
+					content += networkReader.nextLine() + "\n"; 
+				}
+				while(content.length() < contentLen);
+				content = content.substring(0, contentLen -1);
+				Date sentAt = new Date( Long.parseLong(networkReader.nextLine()) );
+
+				msgList.add( new Message(sender, receiver, content, sentAt) );
+			}
+		}
+		else if( result.equals("Not Logged In!") )
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+		else
+		{
+			// TODO [Exception]
+			System.out.println(result);
+		}
+
+		return msgList.toArray(new Message[1]);
+	}
 
 	// Register
 	public static void createNewAccount( 	Scanner networkReader,

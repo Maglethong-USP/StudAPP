@@ -72,6 +72,15 @@ public class UserConnection
 			connection.user.addContact(2);
 			connection.user.removeContact(2);
 
+			connection.user.sendMessage(new Message(2, "blablalba!!"));
+
+			Message m[] = connection.user.recvMessages(
+											new GregorianCalendar(2015, 10, 29, 4, 31).getTime(),
+											null);
+
+			for(int i=0; i<m.length; i++)
+				System.out.println(m[i]);
+
 		}
 		catch(Exception e)
 		{
