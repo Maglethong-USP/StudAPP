@@ -111,8 +111,13 @@ public class HomeFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
 
+        jButton8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton8.setText("Creditos");
-        jButton8.setEnabled(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         MenuButton.setText("Menu");
         MenuButton.addInputMethodListener(new java.awt.event.InputMethodListener() {
@@ -367,6 +372,10 @@ public class HomeFrame extends javax.swing.JFrame {
     private void CreditosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreditosButtonActionPerformed
         StudApp.GoTo("CreditsFrame", this);
     }//GEN-LAST:event_CreditosButtonActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        StudApp.OpenCreditsFrame();
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     private void ToggleEnabled(java.awt.Component component){
         component.setVisible(!component.isVisible());

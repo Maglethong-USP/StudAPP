@@ -16,6 +16,8 @@ import javax.swing.JFrame;
 public class StudApp {
 
     private final static ArrayList chatList = new ArrayList();
+    private static CreditsFrame creditsFrame = null;
+    
     public static client.User user = null;
     public static Socket socket = null;
     
@@ -55,6 +57,20 @@ public class StudApp {
     
     public static void CloseChat(Integer contact){
         chatList.remove(contact);
+    }
+
+    public static void OpenCreditsFrame() {
+        if(creditsFrame == null){
+            creditsFrame = new CreditsFrame();
+            creditsFrame.setVisible(true);
+        }
+    }
+
+    public static void CloseCreditsFrame() {
+        if(creditsFrame != null){
+            creditsFrame.setVisible(false);
+            creditsFrame = null;
+        }
     }
     
 }

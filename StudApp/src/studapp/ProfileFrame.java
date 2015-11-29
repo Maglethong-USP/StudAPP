@@ -5,6 +5,9 @@
  */
 package studapp;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Rafael
@@ -84,8 +87,13 @@ public class ProfileFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jButton8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton8.setText("Creditos");
-        jButton8.setEnabled(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         MenuButton.setText("Menu");
         MenuButton.addInputMethodListener(new java.awt.event.InputMethodListener() {
@@ -620,6 +628,10 @@ public class ProfileFrame extends javax.swing.JFrame {
         TryUpdate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        StudApp.OpenCreditsFrame();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     private void TryUpdate(){
         String newName = TextoNome.getText();
         String newMail = TextoEmail.getText();
@@ -629,7 +641,11 @@ public class ProfileFrame extends javax.swing.JFrame {
         if(!newMail.equals(emailField)){
             StudApp.user.setEmail(newMail);
         }
-        StudApp.user.sendNewProfile();
+        try {
+            StudApp.user.sendNewProfile();
+        } catch (Exception ex) {
+            Logger.getLogger(ProfileFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void ToggleEnabled(java.awt.Component component){

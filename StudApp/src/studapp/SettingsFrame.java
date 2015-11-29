@@ -5,6 +5,9 @@
  */
 package studapp;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Rafael
@@ -58,12 +61,17 @@ public class SettingsFrame extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         NewPasswordConf = new javax.swing.JPasswordField();
-        BotaoAlterarSenha = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jButton8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton8.setText("Creditos");
-        jButton8.setEnabled(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         MenuButton.setText("Menu");
         MenuButton.addInputMethodListener(new java.awt.event.InputMethodListener() {
@@ -260,12 +268,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addComponent(NewPasswordConf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        BotaoAlterarSenha.setText("Alterar Senha");
-        BotaoAlterarSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotaoAlterarSenhaActionPerformed(evt);
-            }
-        });
+        jButton1.setText("Alterar Senha");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -281,7 +284,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(15, 15, 15))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(BotaoAlterarSenha)
+                        .addComponent(jButton1)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel6Layout.setVerticalGroup(
@@ -294,7 +297,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BotaoAlterarSenha)
+                .addComponent(jButton1)
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -308,7 +311,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(165, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -421,12 +424,20 @@ public class SettingsFrame extends javax.swing.JFrame {
         TryUpdatePassword();
     }//GEN-LAST:event_BotaoAlterarSenhaActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        StudApp.OpenCreditsFrame();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     private void TryUpdatePassword(){
         String currentPassword = String.copyValueOf(CurrentPassword.getPassword());
         String newPassword = String.copyValueOf(NewPassword.getPassword());
         String newPasswordConf = String.copyValueOf(NewPasswordConf.getPassword());
         if(newPassword.equals(newPasswordConf)){
-            StudApp.user.changePassword(currentPassword, newPassword);
+            try {
+                StudApp.user.changePassword(currentPassword, newPassword);
+            } catch (Exception ex) {
+                Logger.getLogger(SettingsFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
@@ -469,7 +480,6 @@ public class SettingsFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotaoAlterarSenha;
     private javax.swing.JButton ConfigButton;
     private javax.swing.JButton ContatosButton;
     private javax.swing.JButton CreditosButton;
@@ -484,6 +494,7 @@ public class SettingsFrame extends javax.swing.JFrame {
     private javax.swing.JPanel PainelTopo;
     private javax.swing.JButton PerfilButton;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
