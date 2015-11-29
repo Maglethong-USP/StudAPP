@@ -2,7 +2,6 @@ package server.database;
 
 import java.sql.*;
 import java.util.*;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import server.database.*;
 
@@ -21,14 +20,14 @@ public class Mensagem
 	{
 		this.id_origem = sender;
 		this.id_destino = receiver;
-		this.conteudo = StringEscapeUtils.escapeEcmaScript(content);
+		this.conteudo = content.replace("'", "''");
 		this.data = null;
 	}
 
 	//! Getters
 	public int getSender(){ return this.id_origem; }
 	public int getReceiver(){ return this.id_destino; }
-	public String getContent(){ return StringEscapeUtils.unescapeEcmaScript(this.conteudo); }
+	public String getContent(){ return this.conteudo.replace("''", "'"); }
 	public Timestamp getDate(){ return this.data; }
 	
 	// --------------------------------------------------------------------- //
