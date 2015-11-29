@@ -146,6 +146,49 @@ public class Mensagem
 		return db.query(sql);
 	}
 
+	public static MsgCount[] getMessageCount(int id)
+	throws Exception 
+	{
+		return getMessageCount(id, null, null);
+	}
+
+	public static MsgCount[] getMessageCount(int id, Timestamp newerThan)
+	throws Exception 
+	{
+		return getMessageCount(id, newerThan, null);
+	}
+
+	public static MsgCount[] getMessageCount(int id, Timestamp newerThan,
+													Timestamp olderThan)
+	throws Exception 
+	{
+		ArrayList<MsgCount> ret = new ArrayList<MsgCount>();
+		Database db = new Database();
+		String sql = "SELECT COUNT(data) as count, id_origem FROM mensagem "
+					+ "WHERE id_destino = '" + id + "' ";
+
+		if( newerThan != null )
+		{
+			sql += "AND data > '" + newerThan + "' ";
+		}
+		if( olderThan != null )
+		{
+			sql += "AND data < '" + olderThan + "' ";
+		}
+
+		sql += "GROUP BY(id_origem)";
+
+		ResultSet rs = db.query(sql);
+		while(rs.next())
+		{
+			int count 		= rs.getInt("count");
+			int send_id 	= rs.getInt("id_origem");
+			ret.add(new MsgCount(send_id, count));
+		}
+
+		return ret.toArray(new MsgCount[1]);
+	}
+
 	// Get Next user from ResultSet
 	public static Mensagem next(ResultSet rs) 
 	throws Exception 

@@ -332,6 +332,55 @@ public class User
 		return msgList.toArray(new Message[1]);
 	}
 
+	// Receive number of messages
+	/*!
+		Possible Exceptions:
+		* "Not Logged In!"
+		* other
+	*/
+	public MsgCount[] recvMessageCount(Date newerThan, Date olderThan)
+	throws Exception
+	{
+		MsgCount[] msgList;
+
+		// Send Request
+		networkWriter.println( "RecvMessageCountRequest" );
+		if(newerThan != null)
+			networkWriter.println( newerThan.getTime() );
+		else
+			networkWriter.println( 0 );
+
+		if(olderThan != null)
+			networkWriter.println( olderThan.getTime() );
+		else
+			networkWriter.println( 0 );
+
+		networkWriter.flush();
+
+		// Read response
+		String result = networkReader.nextLine();
+		if( result.equals("Success!") )
+		{
+			int count = Integer.parseInt(networkReader.nextLine());
+			if(count == 0)
+				return null;
+
+			msgList = new MsgCount[count];
+			for(int i=0; i<count; i++)
+			{
+				int id = Integer.parseInt(networkReader.nextLine());
+				int mc = Integer.parseInt(networkReader.nextLine());
+				msgList[i] = new MsgCount(id, mc);
+			}
+		}
+		else
+		{
+			throw new StudAppException(result);
+		}
+
+		return msgList;
+	}
+
 	// Register
 	/*!
 		Possible Exceptions:
