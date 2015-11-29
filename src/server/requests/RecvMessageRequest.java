@@ -16,6 +16,7 @@ public class RecvMessageRequest implements UserRequest
 	throws Exception 
 	{	
 		// Reading inputs
+		int contact_id = Integer.parseInt( networkReader.nextLine() );
 		Long s_newerThan = Long.parseLong( networkReader.nextLine() );
 		Long s_olderThan = Long.parseLong( networkReader.nextLine() );
 
@@ -34,7 +35,7 @@ public class RecvMessageRequest implements UserRequest
 		{
 			try
 			{
-				ResultSet rs = Mensagem.findByOneSide(user.getID(), 
+				ResultSet rs = Mensagem.findByConversation(user.getID(), contact_id,
 														newerThan, olderThan);
 
 				networkWriter.println( "Success!" );

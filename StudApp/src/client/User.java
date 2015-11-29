@@ -280,13 +280,14 @@ public class User
 		* "Not Logged In!"
 		* other
 	*/
-	public Message[] recvMessages(Date newerThan, Date olderThan)
+	public Message[] recvMessages(int id, Date newerThan, Date olderThan)
 	throws Exception
 	{
 		ArrayList<Message> msgList = new ArrayList<Message>();
 
 		// Send Request
 		networkWriter.println( "RecvMessageRequest" );
+		networkWriter.println( id );
 		if(newerThan != null)
 			networkWriter.println( newerThan.getTime() );
 		else
