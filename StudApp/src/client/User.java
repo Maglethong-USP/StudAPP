@@ -66,18 +66,14 @@ public class User
 	public Contact[] 	getContacts()
 	{
 		if(this.contactList == null)
-		{
-			this.refreshContactList();
-		}
+			return null;
 
 		return this.contactList.toArray(new Contact[1]);
 	}
 	public String[] 	getLanguages()
 	{
 		if(this.languageList == null)
-		{
-			this.refreshLanguageList();
-		}
+			return null;
 
 		return this.languageList.toArray(new String[1]);
 	}
@@ -113,7 +109,13 @@ public class User
 	//                                                                       //
 	// --------------------------------------------------------------------- //
 
-	// Login
+	//! Login
+	/*!
+		Possible Exceptions:
+		* "Wrong email or pass!"
+		* "Logout First!"
+		* other
+	*/
 	public static User Authenticate( 	Scanner networkReader,
 										PrintWriter networkWriter,
 										String email,
@@ -140,31 +142,27 @@ public class User
 			ret.type 		= networkReader.nextLine().charAt(0);
 			ret.credits		= Float.parseFloat(networkReader.nextLine());
 		}
-		else if( result.equals("Wrong email or pass!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
-		else if( result.equals("Logout First!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 
 		return ret;
 	}
 
 	// Refresh user information [Does not refresh credits]
+	/*!
+		Possible Exceptions:
+		* "Not Found!"
+		* other
+	*/
 	public void refreshUserInformation()
+	throws Exception
 	{
 		this.refreshUserInformation(this.id);
 	}
 	public void refreshUserInformation(int id)
+	throws Exception
 	{
 		// Send Credentials
 		networkWriter.println( "UserInformationRequest" );
@@ -182,20 +180,20 @@ public class User
 			this.rank_count 	= Integer.parseInt(networkReader.nextLine());
 			this.type 			= networkReader.nextLine().charAt(0);
 		}
-		else if( result.equals("Not Found!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 
 	// Refresh user languages
+	/*!
+		Possible Exceptions:
+		* "Not Logged In!"
+		* other
+	*/
 	public void refreshLanguageList()
+	throws Exception
 	{
 		// Send Credentials
 		networkWriter.println( "UserLanguageRequest" );
@@ -215,20 +213,20 @@ public class User
 				this.languageList.add( lang );
 			}
 		}
-		else if( result.equals("Not Logged In!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 
-	// Refresh Credit Amount [just the total amount] // TODO [test]
+	// Refresh Credit Amount [just the total amount]
+	/*!
+		Possible Exceptions:
+		* "Not Logged In!"
+		* other
+	*/
 	public void refreshCreditsAmount()
+	throws Exception
 	{
 		// Send Credentials
 		networkWriter.println( "UserCreditsAmountRequest" );
@@ -240,22 +238,22 @@ public class User
 		{
 			this.credits = Float.parseFloat(networkReader.nextLine());
 		}
-		else if( result.equals("Not Logged In!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 
 	// Refresh Credit Information [log] // TODO []
 
-	// Send message // TODO [test]
+	// Send message
+	/*!
+		Possible Exceptions:
+		* "Not Logged In!"
+		* other
+	*/
 	public void sendMessage(Message msg)
+	throws Exception
 	{
 		// Send Request
 		networkWriter.println( "SendMessageRequest" );
@@ -270,20 +268,20 @@ public class User
 		{
 			
 		}
-		else if( result.equals("Not Logged In!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 
-	// Receive messages // TODO [test]
+	// Receive messages
+	/*!
+		Possible Exceptions:
+		* "Not Logged In!"
+		* other
+	*/
 	public Message[] recvMessages(Date newerThan, Date olderThan)
+	throws Exception
 	{
 		ArrayList<Message> msgList = new ArrayList<Message>();
 
@@ -326,21 +324,21 @@ public class User
 				msgList.add( new Message(sender, receiver, content, sentAt) );
 			}
 		}
-		else if( result.equals("Not Logged In!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 
 		return msgList.toArray(new Message[1]);
 	}
 
 	// Register
+	/*!
+		Possible Exceptions:
+		* "E-mail in Use!"
+		* "Invalid Password!"
+		* other
+	*/
 	public static void createNewAccount( 	Scanner networkReader,
 											PrintWriter networkWriter,
 											String email,
@@ -359,25 +357,23 @@ public class User
 		{
 			
 		}
-		else if( result.equals("E-mail in Use!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
-		else if( result.equals("Invalid Password!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 
 	// Change Password
+
+	// Register
+	/*!
+		Possible Exceptions:
+		* "Not Logged In!"
+		* "Wrong Password!"
+		* other
+	*/
 	public void changePassword(String curPasswd, String newPasswd)
+	throws Exception
 	{
 		// Send Request
 		networkWriter.println( "ChangePasswordRequest" );
@@ -391,25 +387,21 @@ public class User
 		{
 			
 		}
-		else if( result.equals("Not Logged In!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
-		else if( result.equals("Wrong Password!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 
 	// Change Profile info
+	/*!
+		Possible Exceptions:
+		* "Not Logged In!"
+		* "Wrong Password!"
+		* other
+	*/
 	public void sendNewProfile()
+	throws Exception
 	{
 		// Send Request
 		networkWriter.println( "UpdateProfileRequest" );
@@ -423,25 +415,22 @@ public class User
 		{
 			
 		}
-		else if( result.equals("Not Logged In!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
-		else if( result.equals("Wrong Password!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 
 	// Add contact
+	/*!
+		Possible Exceptions:
+		* "Not Found!"
+		* "Not Logged In!"
+		* "Already Exists!"
+		* other
+	*/
 	public void addContact(int id)
+	throws Exception
 	{
 		// Send Request
 		networkWriter.println( "AddContactRequest" );
@@ -454,30 +443,21 @@ public class User
 		{
 
 		}
-		else if( result.equals("Not Found!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
-		else if( result.equals("Already Exists!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
-		else if( result.equals("Not Logged In!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 
-	// Remove Contact // TODO [Test]
+	// Remove Contact
+	/*!
+		Possible Exceptions:
+		* "Not Found!"
+		* "Not Logged In!"
+		* other
+	*/
 	public void removeContact(int id)
+	throws Exception
 	{
 		// Send Request
 		networkWriter.println( "RemoveContactRequest" );
@@ -490,25 +470,20 @@ public class User
 		{
 
 		}
-		else if( result.equals("Not Found!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
-		else if( result.equals("Not Logged In!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 
 	// Refresh user contacts
+	/*!
+		Possible Exceptions:
+		* "Not Logged In!"
+		* other
+	*/
 	public void refreshContactList()
+	throws Exception
 	{
 		// Send Credentials
 		networkWriter.println( "UserContactsRequest" );
@@ -528,15 +503,9 @@ public class User
 				this.contactList.add( new Contact(id, name) );
 			}
 		}
-		else if( result.equals("Not Logged In!") )
-		{
-			// TODO [Exception]
-			System.out.println(result);
-		}
 		else
 		{
-			// TODO [Exception]
-			System.out.println(result);
+			throw new StudAppException(result);
 		}
 	}
 }
