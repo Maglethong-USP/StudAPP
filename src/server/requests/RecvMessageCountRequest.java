@@ -10,7 +10,7 @@ import server.database.*;
 
 
 
-public class RecvMessageRequest implements UserRequest
+public class RecvMessageCountRequest implements UserRequest
 {
 	public Usuario run(Scanner networkReader, PrintWriter networkWriter, Usuario user) 
 	throws Exception 
@@ -34,23 +34,23 @@ public class RecvMessageRequest implements UserRequest
 		{
 			try
 			{
-				ResultSet rs = Mensagem.findByOneSide(user.getID(), 
+				MsgCount[] mc = Mensagem.getMessageCount(user.getID(), 
 														newerThan, olderThan);
 
 				networkWriter.println( "Success!" );
 
-				Mensagem msg = Mensagem.next(rs);
-				while(msg != null)
+				if(mc == null)
+					networkWriter.println( 0 );
+				else
 				{
-					networkWriter.println( msg.getSender() );
-					networkWriter.println( msg.getReceiver() );
-					networkWriter.println( msg.getContent().length() );
-					networkWriter.println( msg.getContent() );
-					networkWriter.println( msg.getDate().getTime() );
-					msg = Mensagem.next(rs);
-				}
+					networkWriter.println( mc.length );
 
-				networkWriter.println("");
+					for(int i=0; i<mc.length; i++)
+					{
+						networkWriter.println( mc[i].originId );
+						networkWriter.println( mc[i].msgCount );
+					}
+				}
 			}
 			catch(Exception e)
 			{
