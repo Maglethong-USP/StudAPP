@@ -5,17 +5,34 @@
  */
 package studapp;
 
+import client.User;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Rafael
  */
 public class LoginFrame extends javax.swing.JFrame {
 
+    
     /**
      * Creates new form MainFrame
      */
     public LoginFrame() {
         initComponents();
+        String host = "maglethong.ddns.net";
+        int port = 12377;
+        try {
+            StudApp.socket = new Socket(host, port);
+        } catch (IOException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(0);
+        }
     }
 
     /**
@@ -167,11 +184,21 @@ public class LoginFrame extends javax.swing.JFrame {
     private void TryLogin(){
         String usuario = UsuarioText.getText();
         String senha = String.copyValueOf(SenhaText.getPassword());
-        System.out.println(usuario + ", " + senha);
         if((!usuario.isEmpty()) && (!senha.isEmpty())){
-            //if(login is valid){
+            
+            try {
+                Scanner networkReader = new Scanner(StudApp.socket.getInputStream());
+                PrintWriter networkWriter = new PrintWriter(StudApp.socket.getOutputStream());
+                StudApp.user = client.User.Authenticate(networkReader, networkWriter, usuario, senha);
                 StudApp.GoTo("ProfileFrame", this);
+            } catch (Exception ex) {
+                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            //if(login is valid){
+                
             //}
+            
         }
         else{
             MensagemLabel.setText("Usuário ou senha invalidos.");

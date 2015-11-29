@@ -5,6 +5,8 @@
  */
 package studapp;
 
+import java.net.Socket;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
@@ -13,6 +15,10 @@ import javax.swing.JFrame;
  */
 public class StudApp {
 
+    private final static ArrayList chatList = new ArrayList();
+    public static client.User user = null;
+    public static Socket socket = null;
+    
     /**
      * @param args the command line arguments
      */
@@ -21,12 +27,17 @@ public class StudApp {
     }
     
     public static void GoTo(String frameClass, JFrame frame){
+        int posX = 0;
+        int posY = 0;
         if(frame != null){
-            frame.setVisible(false);
+            posX = frame.getX();
+            posY = frame.getY();
+            frame.dispose();
         }
         try{
             Class theClass = Class.forName("studapp." + frameClass);
             JFrame newFrame = (JFrame) theClass.newInstance();
+            newFrame.setBounds(posX, posY, newFrame.getWidth(), newFrame.getHeight());
             newFrame.setVisible(true);
         }
         catch(ClassNotFoundException | InstantiationException | IllegalAccessException e){
@@ -34,28 +45,16 @@ public class StudApp {
         }
     }
     
-    public static void GoToSettings(javax.swing.JFrame frame){
-        if(frame != null){
-            frame.setVisible(false);
+    public static void OpenChat(Integer contact){
+        if(!chatList.contains(contact)){
+            JFrame newFrame = new ChatFrame(contact);
+            chatList.add(contact);
+            newFrame.setVisible(true);
         }
-        SettingsFrame newFrame = new SettingsFrame();
-        newFrame.setVisible(true);
     }
     
-    public static void GoToProfile(javax.swing.JFrame frame){
-        if(frame != null){
-            frame.setVisible(false);
-        }
-        ProfileFrame newFrame = new ProfileFrame();
-        newFrame.setVisible(true);
-    }
-    
-    public static void GoToContacts(javax.swing.JFrame frame){
-        if(frame != null){
-            frame.setVisible(false);
-        }
-        ContactsFrame newFrame = new ContactsFrame();
-        newFrame.setVisible(true);
+    public static void CloseChat(Integer contact){
+        chatList.remove(contact);
     }
     
 }
