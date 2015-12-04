@@ -8,6 +8,8 @@ package studapp;
 import client.Contact;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -38,8 +40,17 @@ public class ContactsFrame extends javax.swing.JFrame {
         MenuPanel.setVisible(false);
         
         
+        try {
+            StudApp.user.refreshContactList();
+        } catch (Exception ex) {
+            Logger.getLogger(ContactsFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         contacts = StudApp.user.getContacts();
         numeroDeContatos = contacts.length;
+        
+        for(Contact c : contacts){
+            StudApp.GetContactIndex(c.getID());
+        }
         
         panels = new JPanel[numeroDeContatos];
         
@@ -201,7 +212,7 @@ public class ContactsFrame extends javax.swing.JFrame {
             botoes[i].setText("Iniciar Conversa");
             botoes[i].addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    BotaoIniciarConversaApertado(e, 0);
+                    BotaoIniciarConversaApertado(e);
                 }
             });
 
@@ -263,11 +274,11 @@ public class ContactsFrame extends javax.swing.JFrame {
         
     }
     
-    private void BotaoIniciarConversaApertado(java.awt.event.ActionEvent evt, int index){
+    private void BotaoIniciarConversaApertado(java.awt.event.ActionEvent evt){
         JButton buttonPressed = (JButton)evt.getSource();
         for(int i=0; i<numeroDeContatos; i++){
             if(buttonPressed == botoes[i]){
-                IniciarConversa(i);
+                IniciarConversa(contacts[i].getID());
                 break;
             }
         }

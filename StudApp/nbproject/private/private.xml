@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Rafael/Documents/NetBeansProjects/StudApp/src/studapp/ChatFrame.java</file>
-            <file>file:/C:/Users/Rafael/Documents/NetBeansProjects/StudApp/src/studapp/LoginFrame.java</file>
-            <file>file:/C:/Users/Rafael/Documents/NetBeansProjects/StudApp/src/studapp/ContactsFrame.java</file>
-            <file>file:/C:/Users/Rafael/Documents/NetBeansProjects/StudApp/src/studapp/StudApp.java</file>
+            <file>file:/C:/Users/Rafael/Documents/StudAPP/StudApp/src/studapp/StudApp.java</file>
+            <file>file:/C:/Users/Rafael/Documents/StudAPP/StudApp/src/studapp/MessageListener.java</file>
+            <file>file:/C:/Users/Rafael/Documents/StudAPP/StudApp/src/client/Contact.java</file>
+            <file>file:/C:/Users/Rafael/Documents/StudAPP/StudApp/src/studapp/ChatFrame.java</file>
+            <file>file:/C:/Users/Rafael/Documents/StudAPP/StudApp/src/studapp/ContactsFrame.java</file>
         </group>
     </open-files>
 </project-private>

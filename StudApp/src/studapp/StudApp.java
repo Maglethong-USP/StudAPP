@@ -15,8 +15,11 @@ import javax.swing.JFrame;
  */
 public class StudApp {
 
-    private final static ArrayList chatList = new ArrayList();
+    private final static ArrayList<Integer> chatList = new ArrayList();
+    private final static ArrayList<ChatFrame> chatFrames = new ArrayList();
     private static CreditsFrame creditsFrame = null;
+    
+    public static ArrayList<Integer> contactIDs = new ArrayList();
     
     public static client.User user = null;
     public static Socket socket = null;
@@ -47,16 +50,24 @@ public class StudApp {
         }
     }
     
-    public static void OpenChat(Integer contact){
-        if(!chatList.contains(contact)){
-            JFrame newFrame = new ChatFrame(contact);
-            chatList.add(contact);
-            newFrame.setVisible(true);
+    public static ChatFrame OpenChat(Integer contactID){
+        ChatFrame chatFrame;
+        if(!chatList.contains(contactID)){
+            chatFrame = new ChatFrame(contactID);
+            chatList.add(contactID);
+            chatFrames.add(chatFrame);
+            chatFrame.setVisible(true);
         }
+        else{
+            chatFrame = chatFrames.get(chatList.indexOf(contactID));
+            chatFrame.requestFocus();
+        }
+        return chatFrame;
     }
     
-    public static void CloseChat(Integer contact){
-        chatList.remove(contact);
+    public static void CloseChat(Integer contactID){
+        chatFrames.remove(chatList.indexOf(contactID));
+        chatList.remove(contactID);
     }
 
     public static void OpenCreditsFrame() {
@@ -71,6 +82,20 @@ public class StudApp {
             creditsFrame.setVisible(false);
             creditsFrame = null;
         }
+    }
+    
+    public static int GetContactID(int index){
+        return contactIDs.get(index);
+    }
+    
+    public static int GetContactIndex(int contactID){
+        for(Integer curCon : contactIDs){
+            if (curCon == contactID){
+                return curCon;
+            }
+        }
+        contactIDs.add(contactID);
+        return contactIDs.indexOf(contactID);
     }
     
 }

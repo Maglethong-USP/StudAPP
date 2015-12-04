@@ -5,7 +5,10 @@
  */
 package studapp;
 
+import client.Message;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,16 +16,16 @@ import java.util.ArrayList;
  */
 public class ChatFrame extends javax.swing.JFrame {
 
-    private int contact;
+    private int contactID;
     private ArrayList histConversa;
     
     /**
      * Creates new form ChatFrame
      */
-    public ChatFrame(int contact) {
+    public ChatFrame(int contactID) {
         initComponents();
-        this.contact = contact;
-        jLabel1.setText("" + contact);
+        this.contactID = contactID;
+        RotuloUsuario.setText("" + contactID);
         histConversa = new ArrayList();
     }
     
@@ -45,7 +48,7 @@ public class ChatFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         CampoMenssagem = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        RotuloUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -79,7 +82,7 @@ public class ChatFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(CampoMenssagem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -99,10 +102,10 @@ public class ChatFrame extends javax.swing.JFrame {
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Conversa com usuário");
+        jLabel2.setText("Conversa com");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("numero");
+        RotuloUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        RotuloUsuario.setText("usuario");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,17 +113,17 @@ public class ChatFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addGap(328, 328, 328))
+                .addComponent(RotuloUsuario)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel1))
+                    .addComponent(RotuloUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -129,7 +132,7 @@ public class ChatFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        StudApp.CloseChat(contact);
+        StudApp.CloseChat(contactID);
     }//GEN-LAST:event_formWindowClosing
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -141,11 +144,25 @@ public class ChatFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_CampoMenssagemActionPerformed
 
     private void SendMessage(){
-        String menssagem = CampoMenssagem.getText();
-        if(!menssagem.isEmpty()){
-            histConversa.add(menssagem);
-            AreaConversa.append("\n" + menssagem);
+        String msgText = CampoMenssagem.getText();
+        if(!msgText.isEmpty()){
+            client.Message msg = new Message(contactID, msgText);
+            try {
+                StudApp.user.sendMessage(msg);
+            } catch (Exception ex) {
+                Logger.getLogger(ChatFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            histConversa.add(msgText);
+            AreaConversa.append(msgText + "\n");
             CampoMenssagem.setText("");
+        }
+    }
+    
+    public void RecieveMessage(Message msg){
+        if(msg != null){
+            String msgText = msg.getContent();
+            histConversa.add(msgText);
+            AreaConversa.append(msgText + "\n");
         }
     }
     
@@ -181,6 +198,9 @@ public class ChatFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ChatFrame().setVisible(true);
+                while(true){
+                    
+                }
             }
         });
     }
@@ -188,8 +208,8 @@ public class ChatFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea AreaConversa;
     private javax.swing.JTextField CampoMenssagem;
+    private javax.swing.JLabel RotuloUsuario;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
