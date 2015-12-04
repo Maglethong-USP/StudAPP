@@ -84,6 +84,9 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="UsuarioText">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="andy@yopmail.com"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="UsuarioTextActionPerformed"/>
       </Events>
@@ -140,6 +143,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="SenhaText">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="qwerty"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SenhaTextActionPerformed"/>
       </Events>

@@ -61,6 +61,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        UsuarioText.setText("andy@yopmail.com");
         UsuarioText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UsuarioTextActionPerformed(evt);
@@ -99,6 +100,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        SenhaText.setText("qwerty");
         SenhaText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SenhaTextActionPerformed(evt);
@@ -182,10 +184,10 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_SenhaTextActionPerformed
 
     private void TryLogin(){
-        //String usuario = UsuarioText.getText();
-        //String senha = String.copyValueOf(SenhaText.getPassword());
-        String usuario = "andy@yopmail.com";
-        String senha = "qwerty";
+        String usuario = UsuarioText.getText();
+        String senha = String.copyValueOf(SenhaText.getPassword());
+        //String usuario = "andy@yopmail.com";
+        //String senha = "qwerty";
         if((!usuario.isEmpty()) && (!senha.isEmpty())){
             
             try {
