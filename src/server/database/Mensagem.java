@@ -186,6 +186,9 @@ public class Mensagem
 			ret.add(new MsgCount(send_id, count));
 		}
 
+		if(ret.size() == 0)
+			return null;
+
 		return ret.toArray(new MsgCount[1]);
 	}
 
