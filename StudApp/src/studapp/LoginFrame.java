@@ -194,8 +194,6 @@ public class LoginFrame extends javax.swing.JFrame {
                 Scanner networkReader = new Scanner(StudApp.socket.getInputStream());
                 PrintWriter networkWriter = new PrintWriter(StudApp.socket.getOutputStream());
                 StudApp.user = client.User.Authenticate(networkReader, networkWriter, usuario, senha);
-                MessageListener ml = new MessageListener();
-                ml.run();
                 StudApp.GoTo("ProfileFrame", this);
             } catch (Exception ex) {
                 Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);

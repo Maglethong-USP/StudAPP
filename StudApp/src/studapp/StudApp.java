@@ -23,12 +23,20 @@ public class StudApp {
     
     public static client.User user = null;
     public static Socket socket = null;
+    public static MessageListener messageListener = null;
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         new LoginFrame().setVisible(true);
+    }
+    
+    public static void StartMessageListener(){
+        if(StudApp.messageListener == null){
+            StudApp.messageListener = new MessageListener();
+            StudApp.messageListener.start();
+        }
     }
     
     public static void GoTo(String frameClass, JFrame frame){

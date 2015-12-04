@@ -19,18 +19,16 @@ public class MessageListener extends Thread{
     public void run(){
         while(true){
             try {
-                sleep(100);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MessageListener.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
+                sleep(1000);
                 MsgCount[] msgCount = StudApp.user.recvMessageCount(null, null);
-                for(MsgCount curmsgc : msgCount){
-                    int curOriginId = curmsgc.originId;
-                    ChatFrame cf = StudApp.OpenChat(curOriginId);
-                    Message[] msgs = StudApp.user.recvMessages(curOriginId, null, null);
-                    for (Message msg : msgs) {
-                        cf.RecieveMessage(msg);
+                if(msgCount != null){
+                    for(MsgCount curmsgc : msgCount){
+                        int curOriginId = curmsgc.originId;
+                        ChatFrame cf = StudApp.OpenChat(curOriginId);
+                        Message[] msgs = StudApp.user.recvMessages(curOriginId, null, null);
+                        for (Message msg : msgs) {
+                            cf.RecieveMessage(msg);
+                        }
                     }
                 }
             } catch (Exception ex) {

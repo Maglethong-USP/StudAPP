@@ -258,7 +258,7 @@ public class User
 		// Send Request
 		networkWriter.println( "SendMessageRequest" );
 		networkWriter.println( msg.getDestination() );
-		networkWriter.println( msg.getContent().length() );
+		networkWriter.println( msg.getContent().length() + 1);
 		networkWriter.println( msg.getContent() );
 		networkWriter.flush();
 

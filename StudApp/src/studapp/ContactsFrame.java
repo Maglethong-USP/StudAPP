@@ -49,8 +49,12 @@ public class ContactsFrame extends javax.swing.JFrame {
         numeroDeContatos = contacts.length;
         
         for(Contact c : contacts){
-            StudApp.GetContactIndex(c.getID());
+            if(c != null){
+                StudApp.GetContactIndex(c.getID());
+            }
         }
+        
+        StudApp.StartMessageListener();
         
         panels = new JPanel[numeroDeContatos];
         
